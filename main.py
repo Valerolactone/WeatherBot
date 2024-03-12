@@ -65,7 +65,7 @@ async def callback(call):
 @dp.message_handler(content_types=['text'])
 async def reply(message: types.Message):
     city = message.text.lower().strip()
-    url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&lang=ru&appid={OPEN_WEATHER_TOKEN}&units=metric'
+    url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={OPEN_WEATHER_TOKEN}&lang=ru&units=metric'
     result = requests.get(url)
     data = json.loads(result.text)
     if result.status_code == 200:
@@ -74,7 +74,6 @@ async def reply(message: types.Message):
         humidity = data['main']['humidity']
         pressure = data['main']['pressure']
         wind_speed = data['wind']['speed']
-        wind_gust = data['wind']['gust']
         weather = data['weather'][0]['main']
         weather_description = data['weather'][0]['description']
 
@@ -99,7 +98,7 @@ async def reply(message: types.Message):
                              f'В городе {message.text} сейчас {weather_description} {wheather_icon}\n'
                              f'Температура {current_temperature} °C {temperature_icon}\n'
                              f'Ощущается как {feels_like_temperature} °C\n'
-                             f'Скорость ветра {wind_speed} м/с с порывами до {wind_gust} м/с {wind_icon}\n'
+                             f'Скорость ветра {wind_speed} м/с {wind_icon}\n'
                              f'Влажность {humidity}%\n'
                              f'Давление {pressure} мм.рт.ст\n')
 
